@@ -1,6 +1,7 @@
 var img = null;
 var imageData = null;
 var imageLoaded = false;
+var points = ["x,y"];
 
 function readURL(input) {
   if (input.files && input.files[0]) {
@@ -35,5 +36,19 @@ function draw() {
 }
 
 function mouseClicked() {
+  if (mouseX < 0 || mouseY < 0) {
+    return;
+  }
   text("x: " + round(mouseX) + " y: " + round(mouseY), mouseX, mouseY);
+  var row = round(mouseX).toString() + "," + round(mouseY).toString();
+  points.push(row);
+}
+
+function savePoints() {
+  var writer = createWriter('points.csv');
+  for (var i = 0; i < points.length; i++) {
+    writer.print(points[i]);
+  }
+  writer.close();
+  writer.clear();
 }
